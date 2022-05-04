@@ -35,11 +35,11 @@ public:
     ListBuffer();
     ~ListBuffer();
  
-    int append(const char* data, uint64_t size) override;
-    int readBufferN(std::string& data, uint64_t N) override;
-    uint64_t readSize() override;
-    int clearBufferN(uint64_t N) override;
-    int clear() override;
+    int append(const char* data, uint64_t size);
+    int readBufferN(std::string& data, uint64_t N);
+    uint64_t readSize();
+    int clearBufferN(uint64_t N);
+    int clear();
 
 private:
     std::list<uint8_t> buffer_;

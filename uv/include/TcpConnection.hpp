@@ -16,7 +16,7 @@
 
 #include <chrono>
 #include <functional>
-#include <atomic>
+#include <cstdatomic>
 #include <string>
 
 #include "EventLoop.hpp"
@@ -40,11 +40,11 @@ class TcpConnection ;
 class TcpServer;
 class ConnectionWrapper;
 
-using TcpConnectionPtr = std::shared_ptr<TcpConnection>;
-using AfterWriteCallback =  std::function<void (WriteInfo& )> ;
-using OnMessageCallback =  std::function<void (TcpConnectionPtr,const char*,ssize_t)>  ;
-using OnCloseCallback =  std::function<void (std::string& )>  ;
-using CloseCompleteCallback =  std::function<void (std::string&)>  ;
+typedef std::shared_ptr<TcpConnection> TcpConnectionPtr; 
+typedef std::function<void (WriteInfo& )> AfterWriteCallback;
+typedef std::function<void (TcpConnectionPtr,const char*,ssize_t)>  OnMessageCallback;
+typedef std::function<void (std::string& )>  OnCloseCallback;
+typedef std::function<void (std::string&)>  CloseCompleteCallback;
 
 
 class TcpConnection : public std::enable_shared_from_this<TcpConnection>
@@ -111,6 +111,6 @@ public:
 private:
     std::weak_ptr<TcpConnection> connection_;
 };
-using ConnectionWrapperPtr = std::shared_ptr<ConnectionWrapper>;
+typedef std::shared_ptr<ConnectionWrapper> ConnectionWrapperPtr;
 }
 #endif

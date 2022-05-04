@@ -23,7 +23,7 @@ namespace uv
 class DNSGet
 {
 public:
-	using OnGetIPAddrCallback = std::function<void(int,std::string&)>;
+	typedef std::function<void(int,std::string&)> OnGetIPAddrCallback;
 
     DNSGet(uv::EventLoop* loop);
     

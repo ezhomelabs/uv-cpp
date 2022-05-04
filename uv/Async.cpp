@@ -60,17 +60,19 @@ void uv::Async::process()
     }
 }
 
+void Async::uv_close_callback(uv_handle_t* handle)
+{
+    auto ptr = static_cast<Async*>(handle->data);
+    ptr->onCloseCompleted();
+    delete (uv_async_t*)handle;
+}
+
 void Async::close(uv::Async::OnCloseCompletedCallback callback)
 {
     onCloseCompletCallback_ = callback;
     if (::uv_is_closing((uv_handle_t*)handle_) == 0)
     {
-        ::uv_close((uv_handle_t*)handle_, [](uv_handle_t* handle)
-        {
-            auto ptr = static_cast<Async*>(handle->data);
-            ptr->onCloseCompleted();
-            delete (uv_async_t*)handle;
-        });
+        ::uv_close((uv_handle_t*)handle_, Async::uv_close_callback);
     }
 }
 

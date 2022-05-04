@@ -85,14 +85,16 @@ int uv::EventLoop::runNoWait()
     return -1;
 }
 
+void uv::EventLoop::async_close_callback(Async* ptr)
+{
+    ::uv_stop(ptr->Loop()->handle());
+}
+
 int uv::EventLoop::stop()
 {
     if (status_ == Status::Started)
     {
-        async_->close([](Async* ptr)
-        {
-            ::uv_stop(ptr->Loop()->handle());
-        });
+        async_->close(uv::EventLoop::async_close_callback);
         return 0;
     }
     return -1;

@@ -25,7 +25,7 @@ namespace uv
 class Async  : public std::enable_shared_from_this<Async>
 {
 public:
-    using OnCloseCompletedCallback = std::function<void(Async*)>;
+    typedef std::function<void(Async*)> OnCloseCompletedCallback;
     Async(EventLoop* loop);
     void  init();
     virtual ~Async();
@@ -42,12 +42,13 @@ private:
     OnCloseCompletedCallback onCloseCompletCallback_;
     void process();
     static void Callback(uv_async_t* handle);
+    static void uv_close_callback(uv_handle_t* handle);
     void onCloseCompleted();
 
 };
 
 
-using AsyncPtr = std::shared_ptr<Async>;
+typedef std::shared_ptr<Async> AsyncPtr;
 
 }
 #endif

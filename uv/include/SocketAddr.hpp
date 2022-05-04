@@ -17,7 +17,7 @@ Description: https://github.com/wlgq2/uv-cpp
 
 namespace uv
 {
-using UVTcpPtr = std::shared_ptr<uv_tcp_t>;
+typedef std::shared_ptr<uv_tcp_t> UVTcpPtr;
 
 class  SocketAddr
 {

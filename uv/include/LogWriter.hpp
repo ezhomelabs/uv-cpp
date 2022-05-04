@@ -23,7 +23,7 @@ namespace uv
 class LogWriter
 {
 public:
-    using WriteLogCallback = std::function<void(int,const std::string&)>;
+    typedef std::function<void(int,const std::string&)> WriteLogCallback;
 
     enum Level{
         Debug = 0,

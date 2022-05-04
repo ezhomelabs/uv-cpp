@@ -59,7 +59,7 @@ public:
     }
 };
 
-using PacketBufferPtr = std::shared_ptr<PacketBuffer>;
+typedef std::shared_ptr<PacketBuffer> PacketBufferPtr;
 }
 
 #endif

@@ -13,13 +13,14 @@
 
 #include <uv.h>
 #include <thread>
-#include <atomic>
+//#include <atomic>
+#include <cstdatomic>
 #include <functional>
 #include <memory>
 
 namespace uv
 {
-using DefaultCallback = std::function<void()>;
+typedef std::function<void()> DefaultCallback;
 
 class Async;
 class EventLoop
@@ -59,9 +60,10 @@ private:
     uv_loop_t* loop_;
     Async* async_;
     std::atomic<Status> status_;
+    static void async_close_callback(Async* ptr);
 };
 
-using EventLoopPtr = std::shared_ptr<uv::EventLoop>;
+typedef std::shared_ptr<uv::EventLoop> EventLoopPtr;
 }
 #endif
 
