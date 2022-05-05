@@ -7,13 +7,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(uv_cpp)
 
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/
-	            /home/frankhe/toolchain/toolchain_gnueabi-4.4.0_ARMv5TE/usr/arm-unknown-linux-uclibcgnueabi/sysroot/usr/include
-		    /home/frankhe/Dropbox/github_workspace/Haicam/libs/libuv/gm8136/armv5/include)
+		    /home/haicam/workspace/libs/libuv/gm8136/armv5/include)
 
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/uv  SOURCES)
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/uv/http  SOURCES)
 
-LINK_DIRECTORIES(/home/frankhe/Dropbox/github_workspace/Haicam/libs/libuv/gm8136/armv5/lib)
+LINK_DIRECTORIES(/home/haicam/workspace/libs/libuv/gm8136/armv5/lib)
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11   -O2 -Dnullptr=NULL")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x  -O2 -Dnullptr=NULL")
