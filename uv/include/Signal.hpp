@@ -20,7 +20,7 @@
 namespace uv
 {
 
-using SignalHandle = std::function<void(int)>;
+typedef std::function<void(int)> SignalHandle;
 
 class Signal
 {
@@ -39,6 +39,7 @@ private:
     bool handle(int signum);
     void closeComplete();
     static void onSignal(uv_signal_t* handle, int signum);
+    static void uv_close_callback(uv_handle_t* handle);
 };
 
 }

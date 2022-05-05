@@ -28,11 +28,11 @@ uv::SocketAddr::SocketAddr(const std::string&& ip, unsigned short port, IPV ipv)
     }
 }
 
-uv::SocketAddr::SocketAddr(const std::string& ip, unsigned short port, IPV ipv)
+/*uv::SocketAddr::SocketAddr(const std::string& ip, unsigned short port, IPV ipv)
     :SocketAddr(std::move(ip), port, ipv)
 {
 
-}
+}*/
 
 uv::SocketAddr::SocketAddr(const sockaddr* addr, IPV ipv)
     :ipv_(ipv)
@@ -55,12 +55,18 @@ const sockaddr * uv::SocketAddr::Addr()
 
 void uv::SocketAddr::toStr(std::string & str)
 {
-    str = ip_ + ":" + std::to_string(port_);
+    char str1[20];
+    sprintf(str1, "%d", port_);
+
+    str = ip_ + ":" +  std::string(str1);
 }
 
 std::string uv::SocketAddr::toStr()
 {
-    std::string str = ip_ + ":" + std::to_string(port_);
+    char str1[20];
+    sprintf(str1, "%d", port_);
+
+    std::string str = ip_ + ":" + std::string(str1);
     return str;
 }
 
@@ -76,7 +82,11 @@ void uv::SocketAddr::AddrToStr(uv_tcp_t* client, std::string& addrStr, IPV ipv)
     ::uv_tcp_getpeername(client, (struct sockaddr *)&addr, &len);
 
     uint16_t port = GetIpAndPort(&addr, addrStr, ipv);
-    addrStr += ":" + std::to_string(port);
+
+    char str[20];
+    sprintf(str, "%d", port);
+
+    addrStr += ":" + std::string(str);
 }
 
 uint16_t uv::SocketAddr::GetIpAndPort(const sockaddr_storage* addr, std::string& out, IPV ipv)

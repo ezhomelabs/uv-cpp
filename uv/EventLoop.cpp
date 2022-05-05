@@ -14,10 +14,10 @@
 
 using namespace uv;
 
-EventLoop::EventLoop()
+/*EventLoop::EventLoop()
     :EventLoop(EventLoop::Mode::New)
 {
-}
+}*/
 
 EventLoop::EventLoop(EventLoop::Mode mode)
     :loop_(nullptr),

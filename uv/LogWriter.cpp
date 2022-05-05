@@ -9,6 +9,7 @@ Description: https://github.com/wlgq2/uv-cpp
 */
 
 #include "include/LogWriter.hpp"
+#include <stdio.h>
 
 #include <iostream>
 
@@ -31,7 +32,7 @@ void uv::LogWriter::ToHex(std::string& message, const char* data, unsigned int s
     for (unsigned int i = 0; i < size; i++)
     {
         char buf[8];
-        std::sprintf(buf, " 0x%x ", (unsigned char)data[i]);
+        sprintf(buf, " 0x%x ", (unsigned char)data[i]);
         message.append(buf);
     }
 }

@@ -59,7 +59,7 @@ int uv::Packet::readFromBuffer(PacketBuffer* packetbuf, Packet& out)
         packetbuf->clearBufferN(sizeof(dataSize)+1);
         packetbuf->readBufferN(data, dataSize +1);
         //检查包尾
-        if ((uint8_t)data.back() == EndByte)
+        if ((uint8_t)data[data.size() -1] == EndByte)
         {
             packetbuf->clearBufferN(dataSize +1);
             break;
@@ -78,7 +78,7 @@ void uv::Packet::pack(const char* data, uint16_t size)
     PackNum(&buffer_[1],size);
 
     std::copy(data, data + size, &buffer_[sizeof(HeadByte) + sizeof(dataSize_)]);
-    buffer_.back() = EndByte;
+    buffer_[buffer_.size() -1] = EndByte;
 }
 
 

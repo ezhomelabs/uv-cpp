@@ -11,6 +11,8 @@
 #include "include/TcpAcceptor.hpp"
 #include "include/LogWriter.hpp"
 
+#define _LAMBDA(NAME, RETURN_TYPE, FUNCTION) struct _{ static RETURN_TYPE NAME FUNCTION };
+
 using namespace std;
 using namespace uv;
 
@@ -60,9 +62,7 @@ int uv::TcpAcceptor::bind(SocketAddr& addr)
 
 int TcpAcceptor::listen()
 {
-    auto rst = ::uv_listen((uv_stream_t*) &server_, 128,
-    [](uv_stream_t *server, int status)
-    {
+    _LAMBDA(callback, void, (uv_stream_t *server, int status){
         if (status < 0)
         {
             uv::LogWriter::Instance()->error (std::string("New connection error :")+ EventLoop::GetErrorMessage(status));
@@ -83,6 +83,8 @@ int TcpAcceptor::listen()
             ::uv_close((uv_handle_t*) client.get(), NULL);
         }
     });
+    auto rst = ::uv_listen((uv_stream_t*) &server_, 128, _::callback);
+
     if (rst == 0)
     {
         listened_ = true;
@@ -104,15 +106,16 @@ void uv::TcpAcceptor::close(DefaultCallback callback)
     {
         ::uv_read_stop((uv_stream_t*)ptr);
     }
+
+    _LAMBDA(callback, void, (uv_handle_t* handle) {
+            auto accept = static_cast<TcpAcceptor*>(handle->data);
+	        accept->onCloseComplete();
+    });
+
     if (::uv_is_closing((uv_handle_t*)ptr) == 0)
     {
         //libuv 在loop轮询中会检测关闭句柄，delete会导致程序异常退出。
-        ::uv_close((uv_handle_t*)ptr,
-            [](uv_handle_t* handle)
-        {
-            auto accept = static_cast<TcpAcceptor*>(handle->data);
-	        accept->onCloseComplete();
-        });
+        ::uv_close((uv_handle_t*)ptr, _::callback);
     }
     else
     {
